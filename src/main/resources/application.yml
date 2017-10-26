@@ -1,0 +1,100 @@
+server:
+  port: 8002
+  display-name: bz_third-party
+  clientNo: BZ00002
+spring:  
+  profiles:  
+    active: test
+################################################测试环境配置#######################################################
+---                                                       
+spring:
+  profiles: test
+  aop:
+    proxy-target-class: true
+###########数据源配置#############################################################################################
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.2.202:3306/bz_system?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false
+    username: bztest
+    password: bz123456
+#############dubbo配置###########################    
+  dubbo: 
+   application:
+     name: bz_third-party-provider
+   base-package: com.bz.thirdparty.core.service  # dubbo服务发布者所在的包
+   registry:
+     address: 192.168.2.202:2181,192.168.2.205:2181                   # zookeeper注册中心的地址
+     port: 2181                           # zookeeper注册中心的端口
+   protocol:
+     name: dubbo
+     serialization: hessian2
+   provider:
+     retries: 0                           # 服务调用重试次数，服务发布者不给重试，让服务调用者自己重试
+###########缓存配置#######################    
+  cache: 
+   type: ehcache
+   ehcache: 
+    config: classpath:ehcache.xml 
+#################################微信配置#############################################
+  wechat:
+    mp:
+      appId: wxba198d911d6ea1aa
+      secret: 39099fc34d02210d248c5de7848c5c62
+      token:
+      aesKey: 
+#################################邮件服务配置############################################
+  mail:
+    host: smtp.163.com
+    username: 13896667100@163.com
+    password: tp19931023
+    properties:
+     mail:
+      smtp:
+       auth: true
+       starttls:
+        enable: true
+        required: true    
+###################################短信平台配置####################################################
+sms:
+ apikey: f57c1c2ae6a156b3bfee6af22fe1baec                                   ###api请求key
+ account: 'https://api.dingdongcloud.com/v1/user/get'             ###用户信息查询
+ captcha: 'https://api.dingdongcloud.com/v1/sms/captcha/send'     ###验证码短信发送
+ notice: 'https://api.dingdongcloud.com//v1/sms/notice/multi_send'###通知短信发送
+ marketing: 'https://api.dingdongcloud.com/v1/sms/marketing/send'  ###营销短信发送
+ send: 
+   intervaltime: 60 ###同一手机号码短信发送时间间隔限制(单位秒)
+   onedayfrequency: 5 ###同一手机号码短信一天能发送次数限制
+ verificationcode:
+   termofvalidity: 300 ###验证码有效期
+ #################################微信配置#############################################
+ wechat:
+  mp:
+    appId: wxba198d911d6ea1aa
+    secret: 39099fc34d02210d248c5de7848c5c62
+    token:
+    aesKey: 
+#################################邮件服务配置############################################
+ mail:
+  host: smtp.163.com
+  username: 13896667100@163.com
+  password: tp19931023
+  properties:
+   mail:
+    smtp:
+     auth: true
+     starttls:
+      enable: true
+      required: true 
+################################地图配置###############################################
+map:
+ key: d6b18081843571ac9e1fe1a18d93a8a3  ##宝众商城商家云图定点KEY：33328462dd7e166eb6c98a81cf9c3cc3####
+ tableid: 59e70cf7afdf521e86a19029 ###测试云图Id##
+ addMerchantInfoUrl: http://yuntuapi.amap.com/datamanage/data/create ##增加商户地图定点##
+ deleteMerchantInfoUrl: http://yuntuapi.amap.com/datamanage/data/delete ##根据ID删除商户地址##
+ updateMerchantInfoUrl: http://yuntuapi.amap.com/datamanage/data/update ##更新指定tableid，指定一条数据序列号_id的数据信息。##
+ selectLocalityMerchantInfoUrl: http://yuntuapi.amap.com/datasearch/local ##本地检索请求地址##
+ selectPeripheryMerchantInfoUrl: http://yuntuapi.amap.com/datasearch/around ##周边检索请求##
+ selectPolygonMerchantInfoUrl: http://yuntuapi.amap.com/datasearch/polygon ##多边形检索请求##
+ selectByIdMerchantInfoUrl: http://yuntuapi.amap.com/datasearch/id  ##id检索请求##
+ slectByConditionMerchantInfoUrl: http://yuntuapi.amap.com/datamanage/data/list ##按照条件关键字查询##
